@@ -1,5 +1,5 @@
 {
-  "name": "sest",
+  "name": "ssst",
   "version": "0.0.1",
   "description": "Unit Testing Sass",
   "main": "index.scss",
@@ -8,20 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/silvandiepen/sest.git"
+    "url": "git+ssh://git@github.com/silvandiepen/ssst.git"
   },
   "keywords": [
     "sass",
     "scss",
     "unit",
-    "test"
+    "test",
+    "ssst"
   ],
   "author": "Sil van Diepen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/silvandiepen/sest/issues"
+    "url": "https://github.com/silvandiepen/ssst/issues"
   },
-  "homepage": "https://github.com/silvandiepen/sest#readme",
+  "homepage": "https://github.com/silvandiepen/ssst#readme",
   "devDependencies": {
     "node-sass": "^4.11.0",
     "sass": "^1.17.0"

@@ -1,0 +1,114 @@
+$has-warnings: false;
+$test-results: null !default;
+
+// extra-info
+// --------------------------
+/// Converts two values in extra information usable for debug purposes.
+/// @access public
+/// @group Sest
+/// @output Log
+/// @parameter Strings
+
+@function extra-info($value, $hide) {
+	@if $hide {
+		@return '';
+	} @else {
+		$return: '│   type: #{type-of($value)}';
+		@if type-of($value) == 'string' {
+			$return: '#{$return}	│   length: #{str-length($value)}';
+		}
+		@if type-of($value) == 'list' {
+			$return: '#{$return}	│   length: #{length($value)}';
+		}
+		@return $return;
+	}
+}
+
+// test
+// --------------------------
+/// Test mixin to show the title and description of a test
+/// @access public
+/// @group Sest
+/// @output Log
+/// @parameter Strings
+
+@mixin test($title: '', $description: '') {
+	@include log-start;
+	
+	$lines: ();
+	@include log-line($title);
+	@include log-line($description);
+	// Set results
+	$test-results: prepend($test-results, $title);
+	@content;
+}
+
+// is-equal
+// --------------------------
+/// Check if two values are equal and throw errors if not.
+/// @access public
+/// @group Sest
+/// @output Log
+/// @parameter Strings
+
+@mixin is-equal($value1, $value2) {
+	$passed: false;
+	@if $value1 == $value2 {
+		$passed: true;
+	}
+
+	@if $passed == false {
+		$has-warnings: true;
+		@include log-line;
+		@include log-line('[✖] Failed');
+	} @else {
+		@include log-line;
+		@include log-line('[✓] Passed');
+		@include log-end;
+	}
+	
+	
+	@if $passed == false {
+		@include log-mid;
+		@include log-line('inserted: 	#{$value1}	#{extra-info($value1, $passed)}');
+		@include log-line('expected: 	#{$value2}	#{extra-info($value2, $passed)}');
+
+		$difference: diff($value1, $value2);
+		@if type-of($difference) == 'list' {
+			@include log-mid;
+			@include log-line('difference:');
+			@each $diff in $difference {
+				@include log-line('#{$diff}');
+			}
+			@include log-end;
+			// @error 'Function did not pass';
+		} @else {
+			@include log-mid;
+			@include log-line('difference: 	#{$difference}');
+			@include log-end;
+			// @error 'Function did not pass';
+		}
+	} 
+}
+
+// test-results
+// --------------------------
+/// Gather information from tests and display these. WIP
+/// @access public
+/// @group Sest
+/// @output Log
+/// @parameter Strings
+
+@mixin test-results($results) {
+	$values: ();
+	$values: append($values, ' RESULTS: (#{length($results)})');
+
+	@if length($results) > 0 {
+		@debug $test-results;
+		@each $result in $results {
+			$values: append($values, $result);
+		}
+	}
+
+	@include log-block($values);
+}

@@ -1,0 +1,114 @@
+
+// diff-str
+// --------------------------
+/// Compare two strings, and return side-by-side differences.
+/// @access public
+/// @group Sest
+/// @output String
+/// @parameter Values
+
+@function diff-str($inserted, $expected) {
+	$diff-list: ();
+	@if str-length($inserted) == str-length($expected) {
+		$inserted-list: to-letter-list($inserted);
+		$expected-list: to-letter-list($expected);
+
+		@for $i from 1 through length($inserted-list) {
+			@if nth($inserted-list, $i) != nth($expected-list, $i) {
+				$diff-list: append(
+					$diff-list,
+					'##{$i}:   #{nth($inserted-list, $i)} ≠ #{nth($expected-list, $i)}'
+				);
+			} 
+			// @else {
+			// 	$diff-list: append($diff-list, '##{$i}:   ✓');
+			// }
+		}
+	} @else {
+		$diff-list: append(
+			$diff-list,
+			'length of output is #{str-length($inserted)} while expected length is #{str-length($expected)}'
+		);
+		$diff-list: append($diff-list, '');
+		$inserted-list: to-letter-list($inserted);
+		$expected-list: to-letter-list($expected);
+		@for $i from 1 through length(shortest($inserted-list, $expected-list)) {
+			@if nth($inserted-list, $i) != nth($expected-list, $i) {
+				$diff-list: append(
+					$diff-list,
+					'##{$i}:   #{nth($inserted-list, $i)} ≠ #{nth($expected-list, $i)}'
+				);
+			} @else {
+				// $diff-list: append(
+				// 	$diff-list,
+				// 	'##{$i}:   ✓ #{nth($inserted-list, $i)}'
+				// );
+			}
+		}
+	}
+	@return $diff-list;
+}
+
+
+// diff-list
+// --------------------------
+/// Compare two lists, and return side-by-side differences.
+/// @access public
+/// @group Sest
+/// @output List
+/// @parameter Values
+
+@function diff-list($inserted, $expected) {
+	$diff-list: ();
+	@if length($inserted) == length($expected) {
+		$inserted-list: $inserted;
+		$expected-list: $expected;
+
+		@for $i from 1 through length($inserted-list, $expected-list) {
+			@if nth($inserted-list, $i) != nth($expected-list, $i) {
+				$diff-list: append(
+					$diff-list,
+					'List item #{$i} -- #{nth($inserted-list, $i)} 	!= #{nth($expected-list, $i)}'
+				);
+			}
+		}
+	} @else {
+		// @return ;
+		$diff-list: append(
+			$diff-list,
+			'length of output is #{length($inserted)} while expected is a #{length($expected)}'
+		);
+		$inserted-list: $inserted;
+		$expected-list: $expected;
+		@for $i from 1 through length(shortest($inserted-list, $expected-list)) {
+			@if nth($inserted-list, $i) != nth($expected-list, $i) {
+				$diff-list: append(
+					$diff-list,
+					'List item #{$i} -- #{nth($inserted-list, $i)} 	!= #{nth($expected-list, $i)}'
+				);
+			}
+		}
+	}
+	@return $diff-list;
+}
+
+// diff
+// --------------------------
+/// Main function to show differences between two values. Checks the type and distrubutes the logic to other functions.
+/// @access public
+/// @group Sest
+/// @output String
+/// @parameter Values
+
+@function diff($inserted, $expected) {
+	@if type-of($inserted) == type-of($expected) {
+		@if type-of($inserted) == 'string' {
+			@return diff-str($inserted, $expected);
+		}
+		@if type-of($inserted) == 'list' {
+			@return diff-list($inserted, $expected);
+		}
+	} @else {
+		@return 'type of output is #{type-of($inserted)} while expected is a #{type-of($expected)}';
+	}
+}

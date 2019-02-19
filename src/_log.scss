@@ -1,0 +1,42 @@
+@mixin log-line($v: null) {
+	@debug '	│	#{$v}';
+}
+@mixin log-top() {
+	@debug '	╭────────────────────';
+	@include log-line;
+}
+@mixin log-end() {
+	@include log-line;
+	@debug '	╰────────────────────';
+}
+@mixin log-mid() {
+	@include log-line;
+	@debug '	├────────────────────';
+	@include log-line;
+}
+
+@mixin log-start() {
+	@include log-top;
+	@include log-line;
+}
+
+@mixin log-block($v) {
+	@if type-of($v) == 'list' {
+		$longest-string: 0;
+		@each $val in $v {
+			@if str-length($val) > $longest-string {
+				$longest-string: str-length($val);
+			}
+		}
+
+		@include log-start($longest-string);
+		@each $val in $v {
+			@include log-line($val, $longest-string);
+		}
+		@include log-end($longest-string);
+	} @else {
+		@include log-start(str-length($v));
+		@include log-line($v, str-length($v));
+		@include log-end(str-length($v));
+	}
+}

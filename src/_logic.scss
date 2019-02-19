@@ -51,12 +51,14 @@ $test-results: null !default;
 /// @output Log
 /// @parameter Strings
 
-@mixin is-equal($value1, $value2) {
+@mixin is-equal($value1, $value2, $value3: null) {
 	$passed: false;
 	@if $value1 == $value2 {
 		$passed: true;
 	}
-
+	@else if $value1 == $value3 {
+		$passed: true;		
+	}
 	@if $passed == false {
 		$has-warnings: true;
 		@include log-line;

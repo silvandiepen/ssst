@@ -26,5 +26,8 @@
   "devDependencies": {
     "node-sass": "^4.11.0",
     "sass": "^1.17.0"
+  },
+  "dependencies": {
+    "@henris/utils": "0.0.3"
   }
 }

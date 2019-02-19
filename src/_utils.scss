@@ -1,0 +1,33 @@
+@function to-letter-list($str) {
+	$letters: ();
+	@for $i from 1 through str-length($str) {
+		$letters: append($letters, str-slice($str, $i, $i));
+	}
+	@return $letters;
+}
+
+@function shortest($v1, $v2) {
+	@if type-of($v1) == type-of($v2) {
+		@if type-of($v1) == 'list' {
+			@if length($v1) < length($v2) {
+				@return $v1;
+			} @else if length($v1) > length($v2) {
+				@return $v2;
+			} @else {
+				@warn '#{$v1} (length #{length($v2)}) has the same length as #{$v2} (length #{length($v2)}), returned #{$v1}';
+				@return $v1;
+			}
+		} @else if type-of($v1) == 'string' {
+			@if str-length($v1) < str-length($v2) {
+				@return $v1;
+			} @else if str-length($v1) > str-length($v2) {
+				@return $v2;
+			} @else {
+				@warn '#{$v1} (length #{str-length($v2)}) has the same length as #{$v2} (length #{str-length($v2)}), returned #{$v1}';
+				@return $v1;
+			}
+		}
+	} @else {
+		@warn 'Values do not have the same type.';
+	}
+}

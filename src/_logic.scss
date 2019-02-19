@@ -39,7 +39,7 @@ $test-results: null !default;
 	@include log-line($title);
 	@include log-line($description);
 	// Set results
-	$test-results: prepend($test-results, $title);
+	$test-results: append($test-results, $title);
 	@content;
 }
 

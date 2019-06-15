@@ -111,4 +111,5 @@
 	} @else {
 		@return 'type of output is #{type-of($inserted)} while expected is a #{type-of($expected)}';
 	}
+	@return null;
 }

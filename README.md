@@ -103,13 +103,14 @@ Test if if a function returns a certain value
 
 Is has an array of different types which can be checked. 
 
-````
+```
 @include test(
 	'Another function()',
 	'Check if the result of myFunction is an angle'
 ) {
 	@include is('angle', myFunction(342)); // This will test of the result of myFunction will be an angle.
 } 
+
 ```
 
 Other options for is:
@@ -124,9 +125,9 @@ Other options for is:
 | int, integer    | Is the result an integer?      | A round number                                                 | 232    | 10.35 |
 | relative length | Is the result a frequency?     | em, ex, ch, rem, vw, vh, vmin or vmax                          | 10vh   | 10px  |
 | absolute length | Is the result a frequency?     | cm, mm, in, px, pt, or pc                                      | 10px   | 10vh  |
-| length          | Is the result a frequency?     | em, ex, ch, rem, vw, vh, vmin, vmax, cm, mm, in, px, pt, or pc | 10px | 10deg |
-| resolution      | Is the result a frequency?     | dpi, dpcm, dppx | 10dpi | 10px |
-| position        | Is the given value a position? | top, right, bottom, left, or center | top | above |
+| length          | Is the result a frequency?     | em, ex, ch, rem, vw, vh, vmin, vmax, cm, mm, in, px, pt, or pc | 10px   | 10deg |
+| resolution      | Is the result a frequency?     | dpi, dpcm, dppx                                                | 10dpi  | 10px  |
+| position        | Is the given value a position? | top, right, bottom, left, or center                            | top    | above |
 
 
 

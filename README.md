@@ -7,7 +7,7 @@ When everything is ok, I'll be silent...
 
 ### Installation
 
-```npm install ssst````
+```npm install ssst```
 
 ### Run
 

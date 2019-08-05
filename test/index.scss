@@ -45,3 +45,19 @@
 @include test('type functions', 'Not Frequency') {
 	@include is-not-equal(is-frequency('10mz'), true);
 }
+
+@include test('Logging Mixins', 'log-results mixins'){
+	@include exist('mixin','log-results')
+}
+@include test('Logging Mixins', 'log-line mixins'){
+	@include exist('mixin','log-line')
+}
+@include test('Logging Mixins', 'log-mid mixins'){
+	@include exist('mixin','log-mid')
+}
+@include test('Logging Mixins', 'log-end mixins'){
+	@include exist('mixin','log-end')
+}
+@include test('Logging Mixins', 'log-start mixins'){
+	@include exist('mixin','log-start')
+}

@@ -146,3 +146,44 @@ Other options for is:
 
 
 
+
+### 'exist'
+
+Check whether your function, mixin or variable exists. Usually you know this, but because of a import fest, you could check if the imports are done right. 
+
+```
+// For a function
+
+@include test(
+	'Check if function exists',
+	'Does my Rem() function exist?'
+) {
+	@include exist('function','rem'); // define the type and the name of type you want to search for
+} 
+
+// For a Mixin
+
+@include test(
+	'Check if function exists',
+	'Does my borders() mixins exist?'
+) {
+	@include exist('mixin','borders'); // define the type and the name of type you want to search for
+} 
+
+// For a Variable
+
+@include test(
+	'Check if my variable exists',
+	'Does my $base variable exist?'
+) {
+	@include exist('variable','base'); // define the type and the name of type you want to search for
+} 
+
+```
+
+| Option   | Description              | Example types                                                        |
+| -------- | ------------------------ | -------------------------------------------------------------------- |
+| variable | Does the variable exist? | Name of a variable; `$testVariable` becomes `testVariable` to check  |
+| function | Does the function exist? | Name of a variable; `@function testFunc` becomes `testFunc` to check |
+| mixin    | Does the mixin exist?    | Name of a mixin; `@mixin testMixin` becomes `testMixin` to check     |
+

@@ -5,7 +5,7 @@ $test-results: null !default;
 // --------------------------
 /// Converts two values in extra information usable for debug purposes.
 /// @access public
-/// @group Sest
+/// @group Ssst
 /// @output Log
 /// @parameter Strings
 
@@ -28,7 +28,7 @@ $test-results: null !default;
 // --------------------------
 /// Test mixin to show the title and description of a test
 /// @access public
-/// @group Sest
+/// @group Ssst
 /// @output Log
 /// @parameter Strings
 
@@ -47,7 +47,7 @@ $test-results: null !default;
 // --------------------------
 /// Check if two values are equal and throw errors if not.
 /// @access public
-/// @group Sest
+/// @group Ssst
 /// @output Log
 /// @parameter Strings
 
@@ -97,7 +97,7 @@ $test-results: null !default;
 // --------------------------
 /// Gather information from tests and display these. WIP
 /// @access public
-/// @group Sest
+/// @group Ssst
 /// @output Log
 /// @parameter Strings
 

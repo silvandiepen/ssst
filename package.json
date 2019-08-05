@@ -4,7 +4,9 @@
   "description": "Unit Testing Sass",
   "main": "index.scss",
   "scripts": {
-    "test": "npm run test"
+    "test": "npm run test:sass && npm run test:node-sass",
+    "test:sass": "sass test/index.scss test/dist/sass-test.css",
+    "test:node-sass": "sass test/index.scss test/dist/node-sass-test.css"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,10 @@
     "stylelint-logical-order": "0.0.4",
     "stylelint-order": "^2.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-sass": "^4.12.0",
+    "sass": "^1.22.9"
+  },
   "peerDependencies": {
     "node-sass": "^4.11.0",
     "sass": "^1.17.1"

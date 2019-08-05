@@ -7,11 +7,11 @@
 }
 @mixin log-end() {
 	@include log-line;
-	@debug '	╰────────────────────';
+	@debug '╰────────────────────';
 }
 @mixin log-mid() {
 	@include log-line;
-	@debug '	├────────────────────';
+	@debug '├────────────────────';
 	@include log-line;
 }
 
@@ -50,7 +50,7 @@
 /// @parameter Strings
 
 
-@mixin log-results($values, $passed, $description){
+@mixin log-results($values, $passed, $expected){
 	@if $passed == false {
 		$has-warnings: true;
 		@include log-line;

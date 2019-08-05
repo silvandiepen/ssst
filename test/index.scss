@@ -1,1 +1,47 @@
-@debug 'Welcome!';
+//Inception, testing the test suite!
+
+@import '../src/index.scss';
+
+@include test('type functions', 'Number') {
+	@include is-equal(is-number(10%), true);
+}
+@include test('type functions', 'Not Number') {
+	@include is-not-equal(is-number('abc'), true);
+}
+
+@include test('type functions', 'Percentage') {
+	@include is-equal(is-percentage('10%'), true);
+}
+@include test('type functions', 'Not Percentage') {
+	@include is-not-equal(is-percentage('10'), true);
+}
+
+@include test('type functions', 'Time') {
+	@include is-equal(is-time('10s'), true);
+}
+
+@include test('type functions', 'Not Time') {
+	@include is-not-equal(is-time('10px'), true);
+}
+
+@include test('type functions', 'Duration') {
+	@include is-equal(is-duration('10ms'), true);
+}
+@include test('type functions', 'Not Duration') {
+	@include is-not-equal(is-duration('10'), true);
+}
+
+@include test('type functions', 'Angle') {
+	@include is-equal(is-angle('10deg'), true);
+}
+@include test('type functions', 'Not Angle') {
+	@include is-not-equal(is-angle('10px'), true);
+}
+
+@include test('type functions', 'Frequency') {
+	@include is-equal(is-frequency('10hz'), true);
+}
+
+@include test('type functions', 'Not Frequency') {
+	@include is-not-equal(is-frequency('10mz'), true);
+}

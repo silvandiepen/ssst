@@ -61,6 +61,24 @@ $test-results: null !default;
 	}
 }
 
+// is-not-equal
+// --------------------------
+/// Check if two values are equal and throw errors if not.
+/// @access public
+/// @group Ssst
+/// @output Log
+/// @parameter Strings
+
+@mixin is-not-equal($value1, $value2, $value3: null) {
+	@if $value1 != $value2 {
+		@include log-results($value1,$value2, true)	
+	}	@else if $value1 != $value3 {
+		@include log-results($value1,$value3, true)
+	} @else {
+		@include log-results($value1,$value2, false)	
+	}
+}
+
 
 // test-results
 // --------------------------

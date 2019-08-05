@@ -99,6 +99,19 @@ Test if if a function returns a certain value
 }  
 ```
 
+### 'is-not-equal'
+
+Test if if a function doesn't returns a certain value. Giving back a false can be an issue, thats why we check if the value is Not the same. 
+
+```
+@include test(
+	'is-number() function',
+	'Returns that it\'s not a number'
+) {
+	@include is-not-equal(is-number('test'), true);
+}  
+```
+
 ### 'is'
 
 Is has an array of different types which can be checked. 

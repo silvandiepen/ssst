@@ -1,0 +1,100 @@
+// is
+// --------------------------
+/// Check if a value is from a certain type
+/// @access public
+/// @group Ssst
+/// @output Log
+/// @parameter Strings
+
+
+@mixin is($type,$value){
+	@if $type == 'number'{
+		@if is-number($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'number');			
+		}
+	}
+	@if $type == 'time'{
+		@if is-time($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'time (ms or s)');			
+		}
+	}
+	
+	@if $type == 'duration'{
+		@if is-duration($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'duration (ms or s)');			
+		}
+	}
+	
+	@if $type == 'angle'{
+		@if is-angle($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'angle (deg, rad, grad or turn)');			
+		}
+	}
+	
+	@if $type == 'frequency'{
+		@if is-frequency($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'frequency (Hz or kHz)');			
+		}
+	}
+
+	@if $type == 'int' or $type == 'integer'{
+		@if is-integer($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'Integer (A round number)');			
+		}
+	}
+	@if $type == 'relative-length'{
+		@if is-relative-length($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'Relative length (em, ex, ch,rem, vw, vh, vmin or vmax)');			
+		}
+	}
+	@if $type == 'absolute-length'{
+		@if is-absolute-length($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'Absolute length (cm, mm, in, px, pt or pc)');			
+		}
+	}
+	@if $type == 'percentage'{
+		@if is-percentage($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'Percentage');			
+		}
+	}
+	
+	@if $type == 'length'{
+		@if is-length($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'Length (cm, mm, in, px, pt, pc, em, ex, ch,rem, vw, vh, vmin or vmax)');			
+		}
+	}
+	@if $type == 'resolution'{
+		@if is-resolution($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'Resolution (dpi, dpcm or dppx)');			
+		}
+	}
+	@if $type == 'position'{
+		@if is-position($value){
+			@include log-results($value, true);
+		} @else {
+			@include log-results($value, false, 'Position (top, right, bottom, left or center)');			
+		}
+	}
+}

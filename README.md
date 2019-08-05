@@ -82,3 +82,53 @@ test/dist
 ```
 
 
+## Tests
+
+There are different tests available for now. Any other tests can be requested (please create an issue or a PR). 
+
+### 'is-equal'
+
+Test if if a function returns a certain value
+
+```
+@include test(
+	'sampleAddFunction() function',
+	'Returns the number'
+) {
+	@include is-equal(sampleAddFunction(1 2 5), 8);
+}  
+```
+
+### 'is'
+
+Is has an array of different types which can be checked. 
+
+````
+@include test(
+	'Another function()',
+	'Check if the result of myFunction is an angle'
+) {
+	@include is('angle', myFunction(342)); // This will test of the result of myFunction will be an angle.
+} 
+```
+
+Other options for is:
+
+| Option          | Description                    | Example types                                                  | pass   | fail  |
+| --------------- | ------------------------------ | -------------------------------------------------------------- | ------ | ----- |
+| number          | Is the result a number?        | any number                                                     | 343    | a4343 |
+| time            | Is the result a time?          | ms, s                                                          | 123s   | 123   |
+| duration        | Is the result a duration?      | ms, s                                                          | 123s   | 123   |
+| angle           | Is the result an angle?        | deg, rad, grad or turn                                         | 123deg | 123px |
+| frequency       | Is the result a frequency?     | Hz or kHz                                                      |        |       |
+| int, integer    | Is the result an integer?      | A round number                                                 | 232    | 10.35 |
+| relative length | Is the result a frequency?     | em, ex, ch, rem, vw, vh, vmin or vmax                          | 10vh   | 10px  |
+| absolute length | Is the result a frequency?     | cm, mm, in, px, pt, or pc                                      | 10px   | 10vh  |
+| length          | Is the result a frequency?     | em, ex, ch, rem, vw, vh, vmin, vmax, cm, mm, in, px, pt, or pc | 10px | 10deg |
+| resolution      | Is the result a frequency?     | dpi, dpcm, dppx | 10dpi | 10px |
+| position        | Is the given value a position? | top, right, bottom, left, or center | top | above |
+
+
+
+
+

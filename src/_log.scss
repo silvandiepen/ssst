@@ -40,3 +40,56 @@
 		@include log-end(str-length($v));
 	}
 }
+
+// test
+// --------------------------
+/// Test mixin to show the title and description of a test
+/// @access public
+/// @group Ssst
+/// @output Log
+/// @parameter Strings
+
+
+@mixin log-results($values, $passed, $description){
+	@if $passed == false {
+		$has-warnings: true;
+		@include log-line;
+		@include log-line('[✖] Failed');
+	} @else {
+		@include log-line;
+		@include log-line('[✓] Passed');
+		@include log-end;
+	}
+	
+	
+	@if $passed == false {
+		@include log-mid;
+		
+		// Check if values is a list, if so, it means it should be compared. Show the differences. 
+		@if type-of($values) ==  'list'{	
+				
+			@include log-line('inserted: 	#{nth($value,1)}	#{extra-info(nth($value,1), $passed)}');
+			@include log-line('expected: 	#{nth($value,2)}	#{extra-info(nth($value,2), $passed)}');
+
+			$difference: diff($value1, $value2);
+			@include log-mid;
+			@if type-of($difference) == 'list' {
+				@include log-line('difference:');
+				@each $diff in $difference {
+					@include log-line('#{$diff}');
+				}
+			} @else {
+				@include log-line('difference: 	#{$difference}');
+			}				
+			@include log-end;
+			
+			
+		} 
+		// Else, this is a string which is expected to be something else. Show what it is and what is expected.
+		@else {
+			@include log-line('inserted: 	#{$values} (#{type-of($values)})');
+			@include log-line('expected: 	#{$expected}');
+			@include log-end;
+		}
+	} 
+}

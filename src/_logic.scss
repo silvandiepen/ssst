@@ -52,46 +52,15 @@ $test-results: null !default;
 /// @parameter Strings
 
 @mixin is-equal($value1, $value2, $value3: null) {
-	$passed: false;
 	@if $value1 == $value2 {
-		$passed: true;
-	}
-	@else if $value1 == $value3 {
-		$passed: true;		
-	}
-	@if $passed == false {
-		$has-warnings: true;
-		@include log-line;
-		@include log-line('[✖] Failed');
+		@include log-results($value1,$value2, true)	
+	}	@else if $value1 == $value3 {
+		@include log-results($value1,$value3, true)
 	} @else {
-		@include log-line;
-		@include log-line('[✓] Passed');
-		@include log-end;
+		@include log-results($value1,$value2, false)	
 	}
-	
-	
-	@if $passed == false {
-		@include log-mid;
-		@include log-line('inserted: 	#{$value1}	#{extra-info($value1, $passed)}');
-		@include log-line('expected: 	#{$value2}	#{extra-info($value2, $passed)}');
-
-		$difference: diff($value1, $value2);
-		@if type-of($difference) == 'list' {
-			@include log-mid;
-			@include log-line('difference:');
-			@each $diff in $difference {
-				@include log-line('#{$diff}');
-			}
-			@include log-end;
-			// @error 'Function did not pass';
-		} @else {
-			@include log-mid;
-			@include log-line('difference: 	#{$difference}');
-			@include log-end;
-			// @error 'Function did not pass';
-		}
-	} 
 }
+
 
 // test-results
 // --------------------------

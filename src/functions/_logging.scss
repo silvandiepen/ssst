@@ -1,0 +1,9 @@
+@charset 'utf-8';
+
+@function repeat($char, $times) {
+	$string: "";
+	@for $i from 1 through $times {
+		$string: "#{$string}#{$char}";
+	}
+	@return $string;
+}

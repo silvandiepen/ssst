@@ -1,27 +1,38 @@
+@charset 'utf-8';
 @mixin log-line($v: null) {
-	@debug '	│	#{$v}';
+	@debug "	│	#{$v}";
 }
 @mixin log-top() {
-	@debug '	╭────────────────────';
+	@debug "	╭────────────────────";
 	@include log-line;
+}
+
+@mixin log-numbered-top($v) {
+	@debug "	╭─#{repeat('─',length($v))}─┬───";
+	@debug "	│ #{$v} │";
+	@debug "	├─#{repeat('─',length($v))}─┘";
 }
 @mixin log-end() {
 	@include log-line;
-	@debug '╰────────────────────';
+	@debug "	╰─────────────────────────";
 }
 @mixin log-mid() {
 	@include log-line;
-	@debug '├────────────────────';
+	@debug "	├────────────────────";
 	@include log-line;
 }
 
-@mixin log-start() {
-	@include log-top;
-	@include log-line;
+@mixin log-start($number: null) {
+	@if $number != null {
+		@include log-numbered-top($number);
+	} @else {
+		@include log-top;
+		@include log-line;
+	}
 }
 
 @mixin log-block($v) {
-	@if type-of($v) == 'list' {
+	@if type-of($v) == "list" {
 		$longest-string: 0;
 		@each $val in $v {
 			@if str-length($val) > $longest-string {
@@ -49,47 +60,56 @@
 /// @output Log
 /// @parameter Strings
 
-
-@mixin log-results($values, $passed, $expected: null){
-	@if $passed == false {
-		$has-warnings: true;
-		@include log-line;
-		@include log-line('[✖] Failed');
-	} @else {
-		@include log-line;
-		@include log-line('[✓] Passed');
-		@include log-end;
-	}
-	
-	
+@mixin log-results($passed, $expected: null, $values) {
 	@if $passed == false {
 		@include log-mid;
-		
-		// Check if values is a list, if so, it means it should be compared. Show the differences. 
-		@if type-of($values) ==  'list'{	
-				
-			@include log-line('inserted: 	#{nth($value,1)}	#{extra-info(nth($value,1), $passed)}');
-			@include log-line('expected: 	#{nth($value,2)}	#{extra-info(nth($value,2), $passed)}');
+		@include log-line(
+			"inserted: #{nth($values,1)} (#{type-of(nth($values,1))})"
+		);
+		@include log-mid;
+		// Check if values is a list, if so, it means it should be compared. Show the differences.
+		@if length($values) > 1 {
+			@for $i from 1 through length($values) {
+				@include log-line(
+					"#{$i}: 	#{nth($values,$i)}	#{extra-info(nth($values,$i), $passed)}"
+				);
+			}
 
-			$difference: diff($value1, $value2);
+			$difference: diff(nth($values, 1), nth($values, 2));
 			@include log-mid;
-			@if type-of($difference) == 'list' {
-				@include log-line('difference:');
+			@if type-of($difference) == "list" {
+				@include log-line("difference:");
 				@each $diff in $difference {
-					@include log-line('#{$diff}');
+					@include log-line("#{$diff}");
 				}
 			} @else {
-				@include log-line('difference: 	#{$difference}');
-			}				
-			@include log-end;
-			
-			
-		} 
-		// Else, this is a string which is expected to be something else. Show what it is and what is expected.
-		@else {
-			@include log-line('inserted: 	#{$values} (#{type-of($values)})');
-			@include log-line('expected: 	#{$expected}');
-			@include log-end;
+				@include log-line("difference: 	#{$difference}");
+			}
+			@include log-mid;
 		}
-	} 
+		// Else, this is a string which is expected to be something else. Show what it is and what is expected.
+		// @else {
+
+		// }
+	}
+
+	// Just show the result;
+	@else {
+		@include log-line;
+		@for $i from 1 through length($values) {
+			@include log-line(
+				"#{$i}: #{nth($values, $i)} (#{type-of(nth($values,$i))})"
+			);
+		}
+		@include log-mid;
+	}
+
+	@if $passed == false {
+		$has-warnings: true;
+		@include log-line("[✕] Failed");
+		@include log-end;
+	} @else {
+		@include log-line("[✔] Passed");
+		@include log-end;
+	}
 }

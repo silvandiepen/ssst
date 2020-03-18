@@ -1,4 +1,4 @@
-
+@charset 'utf-8';
 // diff-str
 // --------------------------
 /// Compare two strings, and return side-by-side differences.
@@ -13,13 +13,13 @@
 		$inserted-list: to-letter-list($inserted);
 		$expected-list: to-letter-list($expected);
 
-		@for $i from 1 through length($inserted-list) {
+		@for $i from 1 through length(longest($inserted-list, $expected-list)) {
 			@if nth($inserted-list, $i) != nth($expected-list, $i) {
 				$diff-list: append(
 					$diff-list,
-					'##{$i}:   #{nth($inserted-list, $i)} ≠ #{nth($expected-list, $i)}'
+					"#{$i}:   #{nth($inserted-list, $i)} ≠ #{nth($expected-list, $i)}"
 				);
-			} 
+			}
 			// @else {
 			// 	$diff-list: append($diff-list, '##{$i}:   ✓');
 			// }
@@ -27,16 +27,16 @@
 	} @else {
 		$diff-list: append(
 			$diff-list,
-			'length of output is #{str-length($inserted)} while expected length is #{str-length($expected)}'
+			"length of output is #{str-length($inserted)} while expected length is #{str-length($expected)}"
 		);
-		$diff-list: append($diff-list, '');
+		$diff-list: append($diff-list, "");
 		$inserted-list: to-letter-list($inserted);
 		$expected-list: to-letter-list($expected);
 		@for $i from 1 through length(shortest($inserted-list, $expected-list)) {
 			@if nth($inserted-list, $i) != nth($expected-list, $i) {
 				$diff-list: append(
 					$diff-list,
-					'##{$i}:   #{nth($inserted-list, $i)} ≠ #{nth($expected-list, $i)}'
+					"#{$i}:   #{nth($inserted-list, $i)} ≠ #{nth($expected-list, $i)}"
 				);
 			} @else {
 				// $diff-list: append(
@@ -48,7 +48,6 @@
 	}
 	@return $diff-list;
 }
-
 
 // diff-list
 // --------------------------
@@ -68,7 +67,7 @@
 			@if nth($inserted-list, $i) != nth($expected-list, $i) {
 				$diff-list: append(
 					$diff-list,
-					'List item #{$i} -- #{nth($inserted-list, $i)} 	!= #{nth($expected-list, $i)}'
+					"List item #{$i} -- #{nth($inserted-list, $i)} 	!= #{nth($expected-list, $i)}"
 				);
 			}
 		}
@@ -76,7 +75,7 @@
 		// @return ;
 		$diff-list: append(
 			$diff-list,
-			'length of output is #{length($inserted)} while expected is a #{length($expected)}'
+			"length of output is #{length($inserted)} while expected is a #{length($expected)}"
 		);
 		$inserted-list: $inserted;
 		$expected-list: $expected;
@@ -84,7 +83,7 @@
 			@if nth($inserted-list, $i) != nth($expected-list, $i) {
 				$diff-list: append(
 					$diff-list,
-					'List item #{$i} -- #{nth($inserted-list, $i)} 	!= #{nth($expected-list, $i)}'
+					"List item #{$i} -- #{nth($inserted-list, $i)} 	!= #{nth($expected-list, $i)}"
 				);
 			}
 		}
@@ -102,14 +101,14 @@
 
 @function diff($inserted, $expected) {
 	@if type-of($inserted) == type-of($expected) {
-		@if type-of($inserted) == 'string' {
+		@if type-of($inserted) == "string" {
 			@return diff-str($inserted, $expected);
 		}
-		@if type-of($inserted) == 'list' {
+		@if type-of($inserted) == "list" {
 			@return diff-list($inserted, $expected);
 		}
 	} @else {
-		@return 'type of output is #{type-of($inserted)} while expected is a #{type-of($expected)}';
+		@return "type of output is #{type-of($inserted)} while a #{type-of($expected)} is expected ";
 	}
 	@return null;
 }

@@ -1,3 +1,4 @@
+@charset 'utf-8';
 $has-warnings: false;
 $test-results: null !default;
 
@@ -11,14 +12,14 @@ $test-results: null !default;
 
 @function extra-info($value, $hide) {
 	@if $hide {
-		@return '';
+		@return "";
 	} @else {
-		$return: '│   type: #{type-of($value)}';
-		@if type-of($value) == 'string' {
-			$return: '#{$return}	│   length: #{str-length($value)}';
+		$return: "│   type: #{type-of($value)}";
+		@if type-of($value) == "string" {
+			$return: "#{$return}	│   length: #{str-length($value)}";
 		}
-		@if type-of($value) == 'list' {
-			$return: '#{$return}	│   length: #{length($value)}';
+		@if type-of($value) == "list" {
+			$return: "#{$return}	│   length: #{length($value)}";
 		}
 		@return $return;
 	}
@@ -32,15 +33,48 @@ $test-results: null !default;
 /// @output Log
 /// @parameter Strings
 
-@mixin test($title: '', $description: '') {
-	@include log-start;
-	
-	$lines: ();
-	@include log-line($title);
-	@include log-line($description);
+@mixin test($lines...) {
+	$title: nth($lines, 1);
+	$number: null;
+	@if type-of(nth($lines, 1)) == "number" {
+		$title: nth($lines, 2);
+		$number: nth($lines, 1);
+		$lines: offset-list($lines, 1);
+	}
+
+	@include log-start($number);
+
+	@each $line in $lines {
+		@include log-line($line);
+	}
+
 	// Set results
 	$test-results: append($test-results, $title);
 	@content;
+}
+
+// are-equal
+// -------------------------
+/// Check if are values are the same
+/// @access public
+/// @group Ssst
+/// @output Log
+/// @parameter Strings
+
+@function are-equal($values) {
+	// @debug length($values);
+	// @debug $values;
+	@if length($values) > 1 {
+		@for $i from 2 through length($values) {
+			@if nth($values, $i) != nth($values, $i - 1) {
+				@return false;
+			}
+		}
+		@return true;
+	} @else {
+		@warn 'are-equal needs atleast two values to check';
+		@return false;
+	}
 }
 
 // is-equal
@@ -51,13 +85,20 @@ $test-results: null !default;
 /// @output Log
 /// @parameter Strings
 
-@mixin is-equal($value1, $value2, $value3: null) {
-	@if $value1 == $value2 {
-		@include log-results($value1,$value2, true)	
-	}	@else if $value1 == $value3 {
-		@include log-results($value1,$value3, true)
+@mixin is-equal($values...) {
+	$valueList: ();
+	@each $value in $values {
+		$valueList: append($valueList, $value);
+	}
+
+	@if length($valueList) > 1 {
+		@if are-equal($valueList) {
+			@include log-results(true, null, $valueList);
+		} @else {
+			@include log-results(false, null, $valueList);
+		}
 	} @else {
-		@include log-results($value1,$value2, false)	
+		@warn 'Atleast 2 values must be given.';
 	}
 }
 
@@ -69,16 +110,17 @@ $test-results: null !default;
 /// @output Log
 /// @parameter Strings
 
-@mixin is-not-equal($value1, $value2, $value3: null) {
-	@if $value1 != $value2 {
-		@include log-results($value1,$value2, true)	
-	}	@else if $value1 != $value3 {
-		@include log-results($value1,$value3, true)
+@mixin is-not-equal($values...) {
+	@if length($values) > 1 {
+		@if are-equal($values) == false {
+			@include log-results(true, null, $values);
+		} @else {
+			@include log-results(false, null, $values);
+		}
 	} @else {
-		@include log-results($value1,$value2, false)	
+		@warn 'Atleast 2 values must be given.';
 	}
 }
-
 
 // test-results
 // --------------------------
@@ -90,7 +132,7 @@ $test-results: null !default;
 
 @mixin test-results($results) {
 	$values: ();
-	$values: append($values, ' RESULTS: (#{length($results)})');
+	$values: append($values, " RESULTS: (#{length($results)})");
 
 	@if length($results) > 0 {
 		@debug $test-results;

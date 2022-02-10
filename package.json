@@ -31,7 +31,7 @@
     "stylelint-order": "^2.0.0"
   },
   "dependencies": {
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "sass": "^1.22.9"
   },
   "peerDependencies": {
